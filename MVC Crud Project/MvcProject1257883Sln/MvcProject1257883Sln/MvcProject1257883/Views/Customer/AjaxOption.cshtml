@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "AjaxOption";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+}
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script>
+    function clear() {
+        $("divCustomers").empty();
+    }
+</script>
+<h2>Ajax Option</h2>
+<p>
+    @DateTime.Now.ToLongTimeString();
+</p>
+@Ajax.ActionLink("All Customers", "AllCustomers", new AjaxOptions()
+{
+    HttpMethod = "Get",
+    UpdateTargetId = "divCustomers",
+    InsertionMode = InsertionMode.Replace,
+    LoadingElementId = "divProgress",
+    OnBegin = "clear",
+    LoadingElementDuration = 1000
+})
+<span style="color:red">|</span>
+@Ajax.ActionLink("All Customers Desc", "AllCustomersDesc", new AjaxOptions()
+{
+    HttpMethod = "Get",
+    UpdateTargetId = "divCustomers",
+    InsertionMode = InsertionMode.Replace,
+    LoadingElementId = "divProgress",
+    OnBegin = "clear",
+    LoadingElementDuration = 1000
+})
+<span style="color:red">|</span>
+@Ajax.ActionLink("All Customers Asc", "AllCustomersAsc", new AjaxOptions()
+{
+    HttpMethod = "Get",
+    UpdateTargetId = "divCustomers",
+    InsertionMode = InsertionMode.Replace,
+    LoadingElementId = "divProgress",
+    OnBegin = "clear",
+    LoadingElementDuration = 1000
+})
+<span style="color:red">|</span>
+<div id="divProgress" style="display:none">
+
+    <img src="~/Images/download.png" />
+</div>
+<div id="divCustomers">
+
+</div>

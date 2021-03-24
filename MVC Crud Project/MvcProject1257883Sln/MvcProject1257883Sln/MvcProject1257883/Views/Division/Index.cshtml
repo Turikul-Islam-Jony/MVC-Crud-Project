@@ -1,0 +1,90 @@
+﻿@model IEnumerable<MvcProject1257883.Models.Division>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Devision head List</h2>
+
+<table id="Division" class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Division Name</th>
+            <th>Division Head</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.DivisionName</td>
+                <td>@item.DevisionHead</td>
+                <td><input type="button" value="Remove" onclick="Remove(this)" /></td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td><input type="text" id="txtDivisionName" /></td>
+            <td><input type="text" id="txtDivisionHead" /></td>
+            <td>
+                <input type="button" id="btnAdd" value="Add" />
+            </td>
+        </tr>
+    </tfoot>
+
+</table>
+<input type="button" id="btnSave" value="Save all" />
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script src="~/Scripts/json2.js"></script>
+<script>
+    $("body").on("click", "#btnAdd", function () {
+        var txtDivisionName = $("#txtDivisionName");
+        var txtDivisionHead = $("#txtDivisionHead");
+        var tBody = $("#Division>TBODY")[0];
+        var row = tBody.insertRow(-1);
+        var cell = $(row.insertCell(-1));
+        cell.html(txtDivisionName.val());
+        cell = $(row.insertCell(-1));
+        cell.html(txtDivisionHead.val());
+        cell = $(row.insertCell(-1));
+        var btnRemove = $("<input/>");
+        btnRemove.attr("type", "button");
+        btnRemove.attr("onclick", "Remove(this);");
+        btnRemove.val("Remove");
+        cell.append(btnRemove);
+        txtDivisionName.val("");
+        txtDivisionHead.val("");
+    });
+    function Remove(button) {
+        var row = $(button).closest("TR");
+        var name = $("TD", row).eq(0).html();
+        if (confirm("Do you want to delete:" + name)) {
+            var table = $("#Division")[0];
+            table.deleteRow(row[0].rowIndex);
+        }
+    };
+
+    $("body").on("click", "#btnSave", function () {
+
+        var divisions = new Array();
+        $("#Division TBODY TR").each(function () {
+            var row = $(this);
+            var division = {};
+            division.Name = row.find("TD").eq(0).html();
+            division.Country = row.find("TD").eq(1).html();
+            divisions.push(division);
+        });
+        $.ajax({
+            type: "POST",
+            url: "/Division/InsertDivision",
+            data: JSON.stringify(divisions),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                alert(r + " record(s) inserted.");
+            }
+        });
+
+    });
+</script>

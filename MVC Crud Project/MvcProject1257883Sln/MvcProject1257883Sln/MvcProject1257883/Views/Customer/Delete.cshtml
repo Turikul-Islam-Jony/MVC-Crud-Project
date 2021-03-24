@@ -1,0 +1,33 @@
+﻿@model MvcProject1257883.Models.ViewModel.CreateCustomerViewModel
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+<h3>Are you sure that you wanna delete this record</h3>
+<div>
+
+    <dl>
+        <dt>@Html.DisplayNameFor(model => model.CustomerName)</dt>
+        <dd>@Html.DisplayFor(model => model.CustomerName)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Date)</dt>
+        <dd>@Html.DisplayFor(model => model.Date)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.ImageName)</dt>
+        <dd>@Html.DisplayFor(model => model.ImageName)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.ImageURL)</dt>
+        <dd><img src="@Url.Content(Model.ImageURL)" width="80" height="80" /></dd>
+    </dl>
+    @using (Html.BeginForm("Delete", "Customer", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "SubmitForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.CustomerId)
+        <div>
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        </div>
+    }
+    @Html.ActionLink("Back to list", "Index")
+</div>
+
